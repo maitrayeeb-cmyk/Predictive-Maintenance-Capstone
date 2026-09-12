@@ -81,10 +81,10 @@ Xtrain, Xtest, ytrain, ytest = train_test_split(
     stratify=y         # Ensures train/test splits are proportional
 )
 
-Xtrain.to_csv("data/Xtrain.csv",index=False)
-Xtest.to_csv("data/Xtest.csv",index=False)
-ytrain.to_csv("data/ytrain.csv",index=False)
-ytest.to_csv("data/ytest.csv",index=False)
+Xtrain.to_csv("pred_maint/data/Xtrain.csv",index=False)
+Xtest.to_csv("pred_maint/data/Xtest.csv",index=False)
+ytrain.to_csv("pred_maint/data/ytrain.csv",index=False)
+ytest.to_csv("pred_maint/data/ytest.csv",index=False)
 
 
 files = ["Xtrain.csv","Xtest.csv","ytrain.csv","ytest.csv"]
