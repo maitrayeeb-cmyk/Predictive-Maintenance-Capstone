@@ -17,12 +17,12 @@ st.write("The Predictive Maintenance Application can analyze historical and real
 st.write("Kindly enter the vehicle telemetry data to assess the engine health parameters such as RPM, temperature, pressure, and other sensor readings")
 
 # Collect user input
-Engine_RPM=st.number_input("Engine_RPM: The number of revolutions per minute (RPM) of the engine, indicating engine speed.", min_value=0, max_value=10000, value=791.24)
-Lub_Oil_Pressure=st.number_input("Lub_Oil_Pressure: The pressure of the lubricating oil in the engine, essential for reducing friction and wear. It is defined in bar or kilopascals (kPa).", min_value=0, max_value=100, value=3.1)
-Fuel_Pressure=st.number_input("Fuel_Pressure: The pressure at which fuel is supplied to the engine, critical for proper combustion. It is defined in bar or kilopascals (kPa).", min_value=0, max_value=100, value=6.2)
-Coolant_Pressure=st.number_input("Coolant_Pressure: The pressure of the engine coolant, affecting engine temperature regulation. It is defined in bar or kilopascals (kPa).", min_value=0, max_value=100, value=2.167)
-Lub_Oil_Temperature=st.number_input("Lub_Oil_Temperature: The temperature of the lubricating oil, which impacts viscosity and engine performance. It is defined in degrees Celsius (°C).", min_value=-20, max_value=1000, value=76.81)
-Coolant_Temperature=st.number_input("Coolant_Temperature: The temperature of the engine coolant, crucial for preventing overheating. It is defined in degrees Celsius (°C) .", min_value=-20, max_value=1000, value=78.346)
+Engine_RPM=st.number_input("Engine_RPM: The number of revolutions per minute (RPM) of the engine, indicating engine speed.", min_value=0, max_value=10000, value=790)
+Lub_Oil_Pressure=st.number_input("Lub_Oil_Pressure: The pressure of the lubricating oil in the engine, essential for reducing friction and wear. It is defined in bar or kilopascals (kPa).", min_value=0.0, max_value=100.0, value=3.1)
+Fuel_Pressure=st.number_input("Fuel_Pressure: The pressure at which fuel is supplied to the engine, critical for proper combustion. It is defined in bar or kilopascals (kPa).", min_value=0.0, max_value=100.0, value=6.2)
+Coolant_Pressure=st.number_input("Coolant_Pressure: The pressure of the engine coolant, affecting engine temperature regulation. It is defined in bar or kilopascals (kPa).", min_value=0.0, max_value=100.0, value=2.167)
+Lub_Oil_Temperature=st.number_input("Lub_Oil_Temperature: The temperature of the lubricating oil, which impacts viscosity and engine performance. It is defined in degrees Celsius (°C).", min_value=-20.0, max_value=1000.0, value=76.81)
+Coolant_Temperature=st.number_input("Coolant_Temperature: The temperature of the engine coolant, crucial for preventing overheating. It is defined in degrees Celsius (°C) .", min_value=-20.0, max_value=1000.0, value=78.346)
 
 Specific_Lubrication_Index=Lub_Oil_Pressure/Engine_RPM
 Volumetric_Coolant_Flow_Proxy=Coolant_Pressure/Engine_RPM
