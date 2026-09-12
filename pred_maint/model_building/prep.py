@@ -87,8 +87,12 @@ ytrain.to_csv("pred_maint/data/ytrain.csv",index=False)
 ytest.to_csv("pred_maint/data/ytest.csv",index=False)
 
 print("Completed writing train and test data files")
-files = ["Xtrain.csv","Xtest.csv","ytrain.csv","ytest.csv"]
-
+files = [
+    "pred_maint/data/Xtrain.csv",
+    "pred_maint/data/Xtest.csv",
+    "pred_maint/data/ytrain.csv",
+    "pred_maint/data/ytest.csv",
+]
 # STEP 5: Uploading Train and Test dataset files to HF space<repo_id>/dataset<repo_type>
 for file_path in files:
     api.upload_file(
