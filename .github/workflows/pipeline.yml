@@ -1,9 +1,10 @@
 name: Predictive-Maintenance-Capstone pipeline
-
 on:
   push:
     branches:
       - main  # Automatically triggers on push to the main branch
+  workflow_dispatch:  # Adds a manual "Run workflow" button
+
 jobs:
   register-dataset:
     runs-on: ubuntu-latest
