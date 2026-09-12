@@ -43,7 +43,7 @@ target='Engine Condition'
 
 # List of numerical features in the dataset
 numeric_features = Xtrain.columns.tolist()
-numeric_features.remove(target)
+print(numeric_features)
 
 
 # List of categorical features in the dataset
