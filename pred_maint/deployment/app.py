@@ -28,7 +28,7 @@ Specific_Lubrication_Index=Lub_Oil_Pressure/Engine_RPM
 Volumetric_Coolant_Flow_Proxy=Coolant_Pressure/Engine_RPM
 Thermal_Crossover_Delta=Lub_Oil_Temperature-Coolant_Temperature
 Safety_Metric=Coolant_Pressure/Coolant_Temperature
-Oil-to-Coolant_Pressure_Differential = Lub_Oil_Pressure-Coolant_Pressure
+OiltoCoolant_Pressure_Differential = Lub_Oil_Pressure-Coolant_Pressure
 # Create a DataFrame with user input
 
 
@@ -45,7 +45,7 @@ input_data = pd.DataFrame([{
     'Volumetric Coolant Flow Proxy': Volumetric_Coolant_Flow_Proxy,
     'Thermal Crossover Delta': Thermal_Crossover_Delta,
     'Safety Metric': Safety_Metric
-    'Oil-to-Coolant Pressure Differential': Oil-to-Coolant_Pressure_Differential
+    'Oil-to-Coolant Pressure Differential': OiltoCoolant_Pressure_Differential
 }])
 
 # Set the classification threshold
