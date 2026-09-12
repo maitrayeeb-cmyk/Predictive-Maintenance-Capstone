@@ -44,7 +44,7 @@ input_data = pd.DataFrame([{
     'Specific Lubrication Index': Specific_Lubrication_Index,
     'Volumetric Coolant Flow Proxy': Volumetric_Coolant_Flow_Proxy,
     'Thermal Crossover Delta': Thermal_Crossover_Delta,
-    'Safety Metric': Safety_Metric
+    'Safety Metric': Safety_Metric,
     'Oil-to-Coolant Pressure Differential': OiltoCoolant_Pressure_Differential
 }])
 
