@@ -55,7 +55,7 @@ data['Volumetric Coolant Flow Proxy'] = data['Coolant pressure'] / data['Engine 
 data['Thermal Crossover Delta'] = data['lub oil temp'] - data['Coolant temp']
 data['Safety Metric'] = data['Coolant pressure'] / data['Coolant temp']
 data['Oil-to-Coolant Pressure Differential'] = data['Lub oil pressure'] - data['Coolant pressure']
-data.head()
+print(data.head())
 
 # Define the target variable for the classification task
 target='Engine Condition'
@@ -80,13 +80,13 @@ Xtrain, Xtest, ytrain, ytest = train_test_split(
     random_state=42,    # Ensures reproducibility by setting a fixed random seed
     stratify=y         # Ensures train/test splits are proportional
 )
-
+print("Completed train-test split")
 Xtrain.to_csv("pred_maint/data/Xtrain.csv",index=False)
 Xtest.to_csv("pred_maint/data/Xtest.csv",index=False)
 ytrain.to_csv("pred_maint/data/ytrain.csv",index=False)
 ytest.to_csv("pred_maint/data/ytest.csv",index=False)
 
-
+print("Completed writing train and test data files")
 files = ["Xtrain.csv","Xtest.csv","ytrain.csv","ytest.csv"]
 
 # STEP 5: Uploading Train and Test dataset files to HF space<repo_id>/dataset<repo_type>
