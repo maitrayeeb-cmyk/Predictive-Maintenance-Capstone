@@ -4,6 +4,7 @@ from imblearn.over_sampling import SMOTE
 import pandas as pd
 import sklearn
 from sklearn.impute import SimpleImputer
+from imblearn.over_sampling import SMOTE
 
 
 # for creating a folder
