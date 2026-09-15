@@ -17,6 +17,8 @@ from huggingface_hub import login, HfApi, create_repo
 from huggingface_hub.utils import RepositoryNotFoundError, HfHubHTTPError
 import mlflow
 import matplotlib.pyplot as plt
+from imblearn.pipeline import make_pipeline
+from imblearn.over_sampling import SMOTE
 
 # Add logs to mlflow artifacts
 epoch_num=1;
