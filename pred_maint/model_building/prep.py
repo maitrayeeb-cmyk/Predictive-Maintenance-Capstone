@@ -1,7 +1,10 @@
+
+from imblearn.over_sampling import SMOTE
 # for data manipulation
 import pandas as pd
 import sklearn
 from sklearn.impute import SimpleImputer
+
 
 # for creating a folder
 import os
@@ -21,6 +24,13 @@ print("Dataset loaded successfully.")
 # Assigning engine_dataset to data for consistency with previous analysis
 data = engine_dataset.copy()
 
+# Define the target variable for the classification task
+target='Engine Condition'
+
+# List of numerical features in the dataset
+numeric_features = [
+    'Engine rpm', 'Lub oil pressure', 'Fuel pressure', 'Coolant pressure','lub oil temp', 'Coolant temp'
+]
 
 
 # STEP 4: Data Pre-processing
@@ -47,22 +57,26 @@ for col,null_records_count in null_records.items():
     else:
         print("No null records found in the dataset.")
 
+print(f"data.head(): {data.head()}")
+print(f"data.info(): {data.info()}")
+###################################################
+#Improving the model
 
-# STEP 5: Feature Engineering
 # Adding the five calculated parameters
 data['Specific Lubrication Index'] = data['Lub oil pressure'] / data['Engine rpm']
 data['Volumetric Coolant Flow Proxy'] = data['Coolant pressure'] / data['Engine rpm']
 data['Thermal Crossover Delta'] = data['lub oil temp'] - data['Coolant temp']
 data['Safety Metric'] = data['Coolant pressure'] / data['Coolant temp']
 data['Oil-to-Coolant Pressure Differential'] = data['Lub oil pressure'] - data['Coolant pressure']
-print(data.head())
 
-# Define the target variable for the classification task
-target='Engine Condition'
+#dropping the Coolant columns to reduce multi-collinearity
+data=data.drop(['Coolant pressure','Coolant temp'],axis=1)
+print(f"data.head(): {data.head()}")
+print(f"data.info(): {data.info()}")
+numeric_features = data.columns.drop('Engine Condition')
+print(numeric_features)
 
-# List of numerical features in the dataset
-numeric_features = data.columns.tolist()
-numeric_features.remove(target)
+
 ##################################################
 
 # Define predictor matrix (X) using the numeric features
@@ -80,6 +94,11 @@ Xtrain, Xtest, ytrain, ytest = train_test_split(
     random_state=42,    # Ensures reproducibility by setting a fixed random seed
     stratify=y         # Ensures train/test splits are proportional
 )
+
+class_weight = ytrain.value_counts()[0] / ytrain.value_counts()[1]
+print(f"class_weight={class_weight}")
+
+
 print("Completed train-test split")
 Xtrain.to_csv("pred_maint/data/Xtrain.csv",index=False)
 Xtest.to_csv("pred_maint/data/Xtest.csv",index=False)
