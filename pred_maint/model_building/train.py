@@ -129,10 +129,7 @@ with mlflow.start_run():
     mlflow.log_params(grid_search.best_params_)
 
     
-    # Store and evaluate the best model
-    best_model = grid_search.best_estimator_
-    print(f"best model:{best_model.get_params()}")
-    print(f"classification report:{classification_report(ytest, y_pred_test)}")
+    
 
     classification_threshold = 0.45
 
@@ -146,6 +143,11 @@ with mlflow.start_run():
     test_report = classification_report(ytest, y_pred_test, output_dict=True)
     print(train_report)
     print(test_report)
+
+    # Store and evaluate the best model
+    best_model = grid_search.best_estimator_
+    print(f"best model:{best_model.get_params()}")
+    print(f"classification report:{classification_report(ytest, y_pred_test)}")
 
     # Log the metrics for the best model
     mlflow.log_metrics({
