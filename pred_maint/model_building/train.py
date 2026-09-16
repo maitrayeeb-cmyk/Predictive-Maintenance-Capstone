@@ -75,7 +75,7 @@ model_pipeline = make_pipeline(
 )
 
 param_grid = {
-    'xgbclassifier__n_estimators': [50, 75, 100],
+    'xgbclassifier__n_estimators': [50, 75, 100, 125],
     'xgbclassifier__max_depth': [2, 3],
     'xgbclassifier__colsample_bytree': [0.5, 0.6],
     'xgbclassifier__colsample_bylevel': [0.5, 0.6],
