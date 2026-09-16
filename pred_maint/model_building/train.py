@@ -74,14 +74,13 @@ model_pipeline = make_pipeline(
     xgb_model
 )
 
-
 param_grid = {
-    'xgbclassifier__n_estimators': [75, 100, 150, 200, 250],
-    'xgbclassifier__max_depth': [3, 4, 5, 6],
-    'xgbclassifier__colsample_bytree': [0.5, 0.6, 0.7],
-    'xgbclassifier__colsample_bylevel': [0.5, 0.6, 0.7],
-    'xgbclassifier__learning_rate': [0.05, 0.1, 0.15],
-    'xgbclassifier__reg_lambda': [ 0.6, 1, 2, 3]
+    'xgbclassifier__n_estimators': [50, 75, 100],
+    'xgbclassifier__max_depth': [2, 3],
+    'xgbclassifier__colsample_bytree': [0.5, 0.6],
+    'xgbclassifier__colsample_bylevel': [0.5, 0.6],
+    'xgbclassifier__learning_rate': [0.01, 0.05, 0.1],
+    'xgbclassifier__reg_lambda': [1, 2, 3],
 }
 
 scoring = {
