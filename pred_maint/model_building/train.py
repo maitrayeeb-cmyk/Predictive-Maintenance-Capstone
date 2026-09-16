@@ -134,6 +134,7 @@ with mlflow.start_run():
     print(f"best model:{best_model.get_params()}")
 
     classification_threshold = 0.45
+    print(f"NOTE: classification_threshold = {classification_threshold}")
 
     y_pred_train_proba = best_model.predict_proba(Xtrain)[:, 1]   
     y_pred_train = (y_pred_train_proba >= classification_threshold).astype(int)
