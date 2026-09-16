@@ -63,12 +63,12 @@ preprocessor = make_column_transformer(
 )
 
 #-----------------------------------------------------
-# computing scale_pos_weight from resampled counts —
+# Using the class-weighting in XGBoost for handling the class imbalance
 
 xgb_model = xgb.XGBClassifier(scale_pos_weight=class_weight, random_state=42)
 #-----------------------------------------------------
 
-# Order matters: scale first, resample second, classify last.
+
 model_pipeline = make_pipeline(
     preprocessor,
     xgb_model
@@ -94,7 +94,7 @@ scoring = {
 # Start MLflow run
 with mlflow.start_run():
     # Hyperparameter tuning
-    grid_search = GridSearchCV(model_pipeline, param_grid, cv=5, n_jobs=-1,scoring=scoring, refit='recall') # <-- changed from 'recall': pure recall is gameable by an
+    grid_search = GridSearchCV(model_pipeline, param_grid, cv=5, n_jobs=-1,scoring=scoring, refit='f1') # <-- changed from 'recall': pure recall is gameable by an
                                                                                                         #     always-predict-positive model when that class is the
                                                                                                         #     majority; f1 forces a precision/recall trade-off.
 
