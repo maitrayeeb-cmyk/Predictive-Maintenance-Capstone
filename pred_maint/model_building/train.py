@@ -69,10 +69,8 @@ xgb_model = xgb.XGBClassifier(scale_pos_weight=class_weight, random_state=42)
 #-----------------------------------------------------
 
 # Order matters: scale first, resample second, classify last.
-# SMOTE uses nearest-neighbor distances, so it should see scaled features, not raw ones.
 model_pipeline = make_pipeline(
     preprocessor,
-    SMOTE(random_state=42),
     xgb_model
 )
 
