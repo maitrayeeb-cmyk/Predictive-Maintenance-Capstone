@@ -1,10 +1,12 @@
 
-from imblearn.over_sampling import SMOTE
+
 # for data manipulation
 import pandas as pd
 import sklearn
 from sklearn.impute import SimpleImputer
-from imblearn.over_sampling import SMOTE
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import make_column_transformer
+from imblearn.pipeline import make_pipeline
 
 
 # for creating a folder
@@ -61,7 +63,6 @@ for col,null_records_count in null_records.items():
 print(f"data.head(): {data.head()}")
 print(f"data.info(): {data.info()}")
 ###################################################
-#Improving the model
 
 # Adding the five calculated parameters
 data['Specific Lubrication Index'] = data['Lub oil pressure'] / data['Engine rpm']

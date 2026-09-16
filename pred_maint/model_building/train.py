@@ -17,8 +17,8 @@ from huggingface_hub import login, HfApi, create_repo
 from huggingface_hub.utils import RepositoryNotFoundError, HfHubHTTPError
 import mlflow
 import matplotlib.pyplot as plt
-from imblearn.pipeline import make_pipeline
-from imblearn.over_sampling import SMOTE
+
+
 
 # Add logs to mlflow artifacts
 epoch_num=1;
@@ -48,6 +48,10 @@ target='Engine Condition'
 numeric_features = Xtrain.columns.tolist()
 print(f"Numeric features:'{numeric_features}'")
 
+# Set the clas weight to handle class imbalance
+class_weight = ytrain.value_counts()[0] / ytrain.value_counts()[1]
+print(f"class_weight={class_weight}")
+
 
 # List of categorical features in the dataset
 categorical_features = []
@@ -59,9 +63,10 @@ preprocessor = make_column_transformer(
 )
 
 #-----------------------------------------------------
-# No more manually computing scale_pos_weight from resampled counts —
-# SMOTE is what handles the imbalance now, so leave scale_pos_weight at its default (1).
-xgb_model = xgb.XGBClassifier(random_state=42)
+# computing scale_pos_weight from resampled counts —
+
+xgb_model = xgb.XGBClassifier(scale_pos_weight=class_weight, random_state=42)
+#-----------------------------------------------------
 
 # Order matters: scale first, resample second, classify last.
 # SMOTE uses nearest-neighbor distances, so it should see scaled features, not raw ones.
@@ -73,12 +78,12 @@ model_pipeline = make_pipeline(
 
 
 param_grid = {
-    'xgbclassifier__n_estimators': [50, 75, 100, 125, 150],
+    'xgbclassifier__n_estimators': [75, 100, 125, 150],
     'xgbclassifier__max_depth': [2, 3, 4],
     'xgbclassifier__colsample_bytree': [0.4, 0.5, 0.6],
     'xgbclassifier__colsample_bylevel': [0.4, 0.5, 0.6],
     'xgbclassifier__learning_rate': [0.01, 0.05, 0.1, 0.15],
-    'xgbclassifier__reg_lambda': [0.4, 0.5, 0.6],
+    'xgbclassifier__reg_lambda': [ 0.5, 0.6, 1, 2]
 }
 
 scoring = {
@@ -91,15 +96,13 @@ scoring = {
 # Start MLflow run
 with mlflow.start_run():
     # Hyperparameter tuning
-    grid_search = GridSearchCV(model_pipeline, param_grid, cv=5, n_jobs=-1,scoring=scoring, refit='f1') # <-- changed from 'recall': pure recall is gameable by an
+    grid_search = GridSearchCV(model_pipeline, param_grid, cv=5, n_jobs=-1,scoring=scoring, refit='recall') # <-- changed from 'recall': pure recall is gameable by an
                                                                                                         #     always-predict-positive model when that class is the
                                                                                                         #     majority; f1 forces a precision/recall trade-off.
 
 
-    grid_search.fit(Xtrain, ytrain) # original+feature-engineered, imbalanced data —
-                                    # SMOTE inside the pipeline resamples each
-                                    # training fold on its own; the held-out
-                                    # fold in every CV split stays real, unresampled data.
+    grid_search.fit(Xtrain, ytrain) # original+feature-engineered, balanced data — using class weights
+                                    
 
     # Log all parameter combinations and their mean test scores
     results = grid_search.cv_results_
@@ -132,7 +135,7 @@ with mlflow.start_run():
 
     classification_threshold = 0.45
 
-    y_pred_train_proba = best_model.predict_proba(Xtrain)[:, 1]   # SMOTE step is skipped automatically here
+    y_pred_train_proba = best_model.predict_proba(Xtrain)[:, 1]   
     y_pred_train = (y_pred_train_proba >= classification_threshold).astype(int)
 
     y_pred_test_proba = best_model.predict_proba(Xtest)[:, 1]
@@ -178,7 +181,7 @@ with mlflow.start_run():
 
     # Log the model artifact
     mlflow.log_artifact(model_path, artifact_path="model")
-    #mlflow.log_text(f"Model saved as artifact at: {model_path}",artifact_file="log.txt")
+   
 
     # Extract and log feature importances
     xgb_final_model = best_model.named_steps['xgbclassifier']
