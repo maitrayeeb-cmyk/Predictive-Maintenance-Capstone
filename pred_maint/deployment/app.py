@@ -37,9 +37,7 @@ input_data = pd.DataFrame([{
     'Engine rpm': Engine_RPM,
     'Lub oil pressure': Lub_Oil_Pressure,
     'Fuel pressure': Fuel_Pressure,
-    'Coolant pressure': Coolant_Pressure,
     'lub oil temp': Lub_Oil_Temperature,
-    'Coolant temp': Coolant_Temperature,
     #Calculated Metrics
     'Specific Lubrication Index': Specific_Lubrication_Index,
     'Volumetric Coolant Flow Proxy': Volumetric_Coolant_Flow_Proxy,
@@ -57,3 +55,4 @@ if st.button("Predict"):
     prediction = (prediction_proba >= classification_threshold).astype(int)
     result = "IS likely to require maintenance" if prediction == 1 else "IS NOT likely to require maintenance"
     st.write(f"Based on the information provided, the vehicle engine {result}.")
+    st.write(f"The confidence level of the prediction is:{prediction_proba}")
