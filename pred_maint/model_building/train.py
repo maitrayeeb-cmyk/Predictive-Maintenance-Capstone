@@ -76,12 +76,12 @@ model_pipeline = make_pipeline(
 
 
 param_grid = {
-    'xgbclassifier__n_estimators': [75, 100, 125, 150],
-    'xgbclassifier__max_depth': [2, 3, 4],
-    'xgbclassifier__colsample_bytree': [0.4, 0.5, 0.6],
-    'xgbclassifier__colsample_bylevel': [0.4, 0.5, 0.6],
-    'xgbclassifier__learning_rate': [0.01, 0.05, 0.1, 0.15],
-    'xgbclassifier__reg_lambda': [ 0.5, 0.6, 1, 2]
+    'xgbclassifier__n_estimators': [75, 100, 150, 200, 250],
+    'xgbclassifier__max_depth': [3, 4, 5, 6],
+    'xgbclassifier__colsample_bytree': [0.5, 0.6, 0.7],
+    'xgbclassifier__colsample_bylevel': [0.5, 0.6, 0.7],
+    'xgbclassifier__learning_rate': [0.05, 0.1, 0.15],
+    'xgbclassifier__reg_lambda': [ 0.6, 1, 2, 3]
 }
 
 scoring = {
@@ -100,7 +100,7 @@ with mlflow.start_run():
 
 
     grid_search.fit(Xtrain, ytrain) # original+feature-engineered, balanced data — using class weights
-                                    
+
 
     # Log all parameter combinations and their mean test scores
     results = grid_search.cv_results_
@@ -134,7 +134,7 @@ with mlflow.start_run():
     classification_threshold = 0.45
     print(f"NOTE: classification_threshold = {classification_threshold}")
 
-    y_pred_train_proba = best_model.predict_proba(Xtrain)[:, 1]   
+    y_pred_train_proba = best_model.predict_proba(Xtrain)[:, 1]
     y_pred_train = (y_pred_train_proba >= classification_threshold).astype(int)
 
     y_pred_test_proba = best_model.predict_proba(Xtest)[:, 1]
@@ -180,7 +180,7 @@ with mlflow.start_run():
 
     # Log the model artifact
     mlflow.log_artifact(model_path, artifact_path="model")
-   
+
 
     # Extract and log feature importances
     xgb_final_model = best_model.named_steps['xgbclassifier']
